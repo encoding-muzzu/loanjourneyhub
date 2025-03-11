@@ -80,12 +80,12 @@ export default function Welcome() {
         </motion.div>
       </div>
       
-      {/* Get Started Button at bottom center */}
+      {/* Get Started Button at bottom center - margin changed from mb-12 to mb-4 */}
       <motion.div 
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.5 }}
-        className="mb-12 w-full max-w-md px-4"
+        className="mb-4 w-full max-w-md px-4"
       >
         <Button
           onClick={handleStart}
