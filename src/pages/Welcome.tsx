@@ -38,7 +38,7 @@ export default function Welcome() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-between bg-gradient-to-b from-gray-50 to-gray-100 p-4">
-      <div className="w-full max-w-md flex-1 flex flex-col items-center pt-12 pb-16">
+      <div className="w-full max-w-md flex-1 flex flex-col items-center justify-center pt-12">
         {/* Logo Section */}
         <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
@@ -80,7 +80,7 @@ export default function Welcome() {
         </motion.div>
       </div>
       
-      {/* Get Started Button at bottom center - margin changed from mb-12 to mb-4 */}
+      {/* Action button at bottom */}
       <motion.div 
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

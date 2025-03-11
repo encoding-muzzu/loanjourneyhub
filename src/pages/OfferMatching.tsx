@@ -70,8 +70,9 @@ export default function OfferMatching() {
         </motion.div>
       </div>
       
+      {/* This page doesn't need a button but maintaining consistent spacing */}
       <div className="mb-4 w-full max-w-md px-4">
-        {/* This page doesn't need a button but we're maintaining consistent spacing */}
+        {/* Empty space to maintain layout consistency */}
       </div>
     </div>
   );

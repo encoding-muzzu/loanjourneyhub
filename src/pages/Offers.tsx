@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { ArrowRight } from "lucide-react";
 
 interface Offer {
   id: number;
@@ -50,7 +51,7 @@ export default function Offers() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-between bg-gradient-to-b from-gray-50 to-gray-100 p-4">
-      <div className="w-full max-w-4xl flex-1 flex flex-col items-center pt-8">
+      <div className="w-full max-w-4xl flex-1 flex flex-col items-center justify-center pt-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -67,6 +68,8 @@ export default function Offers() {
                   y: 0,
                   transition: { delay: index * 0.2 }
                 }}
+                onClick={() => setSelectedOffer(offer.id)}
+                className="cursor-pointer"
               >
                 <Card className={`overflow-hidden border-none shadow-xl rounded-2xl ${selectedOffer === offer.id ? 'ring-2 ring-primary' : ''}`}>
                   <div className={`${offer.gradient} p-6`}>
@@ -97,6 +100,7 @@ export default function Offers() {
         </motion.div>
       </div>
       
+      {/* Action button at bottom */}
       <motion.div 
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -109,6 +113,7 @@ export default function Offers() {
           disabled={!selectedOffer}
         >
           {selectedOffer ? "Proceed with Selected Offer" : "Select an Offer to Continue"}
+          {selectedOffer && <ArrowRight className="ml-1" />}
         </Button>
       </motion.div>
     </div>
