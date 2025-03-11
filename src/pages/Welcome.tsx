@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useProgress } from "@/contexts/ProgressContext";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Building, CreditCard, Shield } from "lucide-react";
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -37,8 +37,20 @@ export default function Welcome() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-zinc-900 to-black p-4">
-      <div className="max-w-md w-full px-4">
+    <div className="min-h-screen flex flex-col items-center justify-between bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+      <div className="w-full max-w-md flex-1 flex flex-col items-center pt-12 pb-16">
+        {/* Logo Section */}
+        <motion.div 
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
+        >
+          <div className="gradient-card flex items-center justify-center w-20 h-20 rounded-full p-5 shadow-lg">
+            <Building size={40} className="text-white" strokeWidth={1.5} />
+          </div>
+        </motion.div>
+        
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -47,44 +59,46 @@ export default function Welcome() {
         >
           <motion.h1 
             variants={itemVariants}
-            className="text-4xl sm:text-5xl font-bold text-white mb-6"
+            className="text-4xl sm:text-5xl font-bold text-gray-800 mb-6"
           >
-            Effortless<br />
-            Loans<br />
-            Simplified
+            EasyLoan
           </motion.h1>
           
           <motion.p 
             variants={itemVariants}
-            className="text-base sm:text-lg text-gray-400 mb-8"
+            className="text-base sm:text-lg text-gray-600 mb-4"
           >
-            Experience seamless loan matching that<br />
-            makes managing your finances easy and intuitive
+            Welcome to your trusted loan marketplace
           </motion.p>
           
-          <motion.div 
+          <motion.p 
             variants={itemVariants}
-            className="mb-12"
+            className="text-sm text-gray-500 mb-8 max-w-xs mx-auto"
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                onClick={handleStart}
-                size="lg"
-                className="gradient-button px-8 py-6 text-lg font-medium rounded-full flex items-center gap-2 shadow-xl"
-              >
-                Get Started Now
-                <ArrowRight className="ml-1" />
-              </Button>
-            </motion.div>
-            <p className="mt-4 text-sm text-gray-500">
-              No credit check required to view your offers
-            </p>
-          </motion.div>
+            Compare and apply for multiple loan offers tailored to your needs with just a few clicks
+          </motion.p>
         </motion.div>
       </div>
+      
+      {/* Get Started Button at bottom center */}
+      <motion.div 
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.8, duration: 0.5 }}
+        className="mb-12 w-full max-w-md px-4"
+      >
+        <Button
+          onClick={handleStart}
+          size="lg"
+          className="gradient-button px-8 py-6 text-lg font-medium rounded-full w-full flex items-center justify-center gap-2 shadow-xl"
+        >
+          Get Started Now
+          <ArrowRight className="ml-1" />
+        </Button>
+        <p className="mt-4 text-sm text-center text-gray-500">
+          No credit check required to view your offers
+        </p>
+      </motion.div>
     </div>
   );
 }
