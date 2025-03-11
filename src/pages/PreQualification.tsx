@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Layout } from "@/components/Layout";
 import { motion } from "framer-motion";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card } from "@/components/ui/card";
@@ -25,7 +24,7 @@ export default function PreQualification() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-between bg-gradient-to-b from-gray-50 to-gray-100 p-4">
-      <div className="w-full max-w-md flex-1 flex flex-col items-center justify-center py-8">
+      <div className="w-full max-w-md flex-1 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,31 +50,38 @@ export default function PreQualification() {
                 This is a pre-qualified amount based on your preliminary assessment. The final loan amount may be adjusted after detailed verification.
               </span>
             </div>
-
-            <Button
-              onClick={handleViewOffer}
-              className="gradient-button w-full py-6 text-lg font-medium rounded-full flex items-center justify-center gap-2 shadow-xl"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <span className="mr-2">Processing</span>
-                  <span className="flex gap-1">
-                    <span className="animate-bounce h-1.5 w-1.5 rounded-full bg-white"></span>
-                    <span className="animate-bounce h-1.5 w-1.5 rounded-full bg-white animation-delay-200"></span>
-                    <span className="animate-bounce h-1.5 w-1.5 rounded-full bg-white animation-delay-400"></span>
-                  </span>
-                </>
-              ) : (
-                <>
-                  View Offer
-                  <ArrowRight className="ml-1" />
-                </>
-              )}
-            </Button>
           </Card>
         </motion.div>
       </div>
+      
+      <motion.div 
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="mb-4 w-full max-w-md px-4"
+      >
+        <Button
+          onClick={handleViewOffer}
+          className="gradient-button w-full py-6 text-lg font-medium rounded-full flex items-center justify-center gap-2 shadow-xl"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <span className="mr-2">Processing</span>
+              <span className="flex gap-1">
+                <span className="animate-bounce h-1.5 w-1.5 rounded-full bg-white"></span>
+                <span className="animate-bounce h-1.5 w-1.5 rounded-full bg-white animation-delay-200"></span>
+                <span className="animate-bounce h-1.5 w-1.5 rounded-full bg-white animation-delay-400"></span>
+              </span>
+            </>
+          ) : (
+            <>
+              View Offer
+              <ArrowRight className="ml-1" />
+            </>
+          )}
+        </Button>
+      </motion.div>
     </div>
   );
 }
