@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -19,6 +20,7 @@ interface Offer {
 
 export default function Offers() {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [selectedOffer, setSelectedOffer] = useState<number | null>(null);
 
   const offers: Offer[] = [
@@ -48,6 +50,9 @@ export default function Offers() {
       title: "Offer Selected",
       description: "You'll be contacted by our team shortly."
     });
+    
+    // Navigate to KYC process page
+    navigate("/kyc-process");
   };
 
   return (

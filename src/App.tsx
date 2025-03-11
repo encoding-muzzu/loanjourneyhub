@@ -11,6 +11,7 @@ import PreQualification from "./pages/PreQualification";
 import PanVerification from "./pages/PanVerification";
 import OfferMatching from "./pages/OfferMatching";
 import Offers from "./pages/Offers";
+import KycProcess from "./pages/KycProcess";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/pan-verification" element={<PanVerification />} />
             <Route path="/offer-matching" element={<OfferMatching />} />
             <Route path="/offers" element={<Offers />} />
+            <Route path="/kyc-process" element={<KycProcess />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

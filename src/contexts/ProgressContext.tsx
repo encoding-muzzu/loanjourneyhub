@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState } from 'react';
 
-type Step = 'welcome' | 'pre-qualification' | 'pan-verification' | 'offer-matching' | 'offers';
+type Step = 'welcome' | 'pre-qualification' | 'pan-verification' | 'offer-matching' | 'offers' | 'kyc-process';
 
 interface ProgressContextType {
   currentStep: Step;
@@ -19,7 +19,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     'pre-qualification',
     'pan-verification',
     'offer-matching',
-    'offers'
+    'offers',
+    'kyc-process'
   ];
 
   return (
