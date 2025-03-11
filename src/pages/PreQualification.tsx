@@ -29,26 +29,24 @@ export default function PreQualification() {
         animate={{ opacity: 1, y: 0 }}
         className="space-y-6"
       >
-        <Card className="p-6">
+        <Card className="p-8 rounded-2xl border-none shadow-xl bg-white">
           <h2 className="text-2xl font-semibold text-center mb-6">
             Congratulations! You're Pre-Qualified
           </h2>
           
           <div className="text-center mb-8">
-            <div className="text-4xl font-bold text-primary mb-2">
-              ₹5,00,000
+            <div className="gradient-card max-w-sm mx-auto p-6 rounded-2xl mb-4">
+              <div className="text-2xl font-light text-white mb-2">Maximum Loan Amount</div>
+              <div className="text-5xl font-bold text-white">₹5,00,000</div>
             </div>
-            <p className="text-gray-600">
-              Maximum Pre-Qualified Loan Amount
-            </p>
           </div>
 
           <div className="space-y-4 mb-8">
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <div className="flex justify-between p-4 bg-gray-50 rounded-lg">
               <span className="text-gray-600">Interest Rate Starting From</span>
               <span className="font-semibold">10.5% p.a.</span>
             </div>
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <div className="flex justify-between p-4 bg-gray-50 rounded-lg">
               <span className="text-gray-600">Tenure Available</span>
               <span className="font-semibold">Up to 60 months</span>
             </div>
@@ -57,8 +55,7 @@ export default function PreQualification() {
           <div className="text-center">
             <Button
               onClick={handleViewOffer}
-              className="w-full md:w-auto px-8"
-              size="lg"
+              className="gradient-button w-full md:w-auto px-10 py-6 text-lg"
               disabled={loading}
             >
               {loading ? "Processing..." : "View Complete Offer"}

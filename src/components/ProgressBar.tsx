@@ -7,8 +7,16 @@ export function ProgressBar() {
   const currentIndex = steps.indexOf(currentStep);
 
   return (
-    <div className="w-full max-w-3xl mx-auto mb-8">
-      <div className="flex justify-between mb-2">
+    <div className="w-full max-w-3xl mx-auto mb-10">
+      <div className="flex justify-between items-center mb-2 relative">
+        {/* Progress line */}
+        <div className="absolute left-0 top-1/2 h-1 w-full -translate-y-1/2 bg-gray-200 rounded-full"></div>
+        <div 
+          className="absolute left-0 top-1/2 h-1 -translate-y-1/2 bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] rounded-full transition-all duration-500"
+          style={{ width: `${(currentIndex / (steps.length - 1)) * 100}%` }}
+        ></div>
+        
+        {/* Steps */}
         {steps.map((step, index) => {
           const isCompleted = index <= currentIndex;
           const isActive = index === currentIndex;
@@ -17,16 +25,15 @@ export function ProgressBar() {
             <div
               key={step}
               className={cn(
-                "flex flex-col items-center flex-1",
-                index < steps.length - 1 && "relative"
+                "flex flex-col items-center z-10"
               )}
             >
               <div
                 className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors",
+                  "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all",
                   isCompleted
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground"
+                    ? "gradient-card shadow-md"
+                    : "bg-gray-200 text-gray-500"
                 )}
               >
                 {index + 1}
@@ -34,19 +41,11 @@ export function ProgressBar() {
               <div
                 className={cn(
                   "mt-2 text-xs font-medium capitalize",
-                  isActive ? "text-primary" : "text-muted-foreground"
+                  isActive ? "text-primary" : "text-gray-500"
                 )}
               >
                 {step.replace("-", " ")}
               </div>
-              {index < steps.length - 1 && (
-                <div
-                  className={cn(
-                    "absolute top-4 left-1/2 w-full h-[2px] -translate-y-1/2",
-                    isCompleted ? "bg-primary" : "bg-muted"
-                  )}
-                />
-              )}
             </div>
           );
         })}
