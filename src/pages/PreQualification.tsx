@@ -6,8 +6,7 @@ import { Layout } from "@/components/Layout";
 import { motion } from "framer-motion";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card } from "@/components/ui/card";
-import { BadgeCheck, BadgeDollarSign, ShieldCheck } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
+import { ShieldCheck } from "lucide-react";
 
 export default function PreQualification() {
   const navigate = useNavigate();
@@ -33,40 +32,28 @@ export default function PreQualification() {
         className="max-w-md mx-auto"
       >
         <Card className="p-8 rounded-xl shadow-xl border-none bg-white">
-          <div className="text-center mb-6">
-            <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center">
-                <BadgeCheck className="h-8 w-8 text-[#10b981]" />
-              </div>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-1">
-              Pre-Qualified
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              Pre-Qualified Loan Offer
             </h2>
-            <p className="text-gray-500 text-sm">
-              Based on your preliminary assessment
-            </p>
+            
+            <div className="bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] p-8 rounded-xl mb-6 text-center shadow-md">
+              <div className="text-white text-sm font-medium mb-2">Pre-Qualified Amount</div>
+              <div className="text-white text-4xl font-bold mb-2">₹5,00,000</div>
+              <div className="text-white/80 text-sm">Maximum eligible amount</div>
+            </div>
           </div>
 
-          <div className="bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] p-6 rounded-xl mb-6 text-center shadow-md">
-            <div className="text-white text-sm font-medium mb-2">Your Pre-Qualified Amount</div>
-            <div className="text-white text-4xl font-bold mb-1">₹5,00,000</div>
-            <div className="text-white/80 text-xs">Maximum eligible amount</div>
-          </div>
-
-          <div className="space-y-4 mb-8">
-            <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-              <ShieldCheck className="h-5 w-5 text-gray-500 mr-3" />
-              <span className="text-sm text-gray-600">This is a pre-qualified offer that may be adjusted during verification</span>
-            </div>
-            <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-              <BadgeDollarSign className="h-5 w-5 text-gray-500 mr-3" />
-              <span className="text-sm text-gray-600">Interest rates starting from 10.5% p.a.</span>
-            </div>
+          <div className="flex items-center p-4 bg-gray-50 rounded-lg mb-8">
+            <ShieldCheck className="h-5 w-5 text-gray-500 mr-3 flex-shrink-0" />
+            <span className="text-sm text-gray-600">
+              This is a pre-qualified amount based on your preliminary assessment. The final loan amount may be adjusted after detailed verification.
+            </span>
           </div>
 
           <Button
             onClick={handleViewOffer}
-            className="gradient-button w-full py-3 font-medium text-base"
+            className="gradient-button w-full py-6 text-lg font-medium"
             disabled={loading}
           >
             {loading ? (
