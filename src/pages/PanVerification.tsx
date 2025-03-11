@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import { ArrowRight } from "lucide-react";
 
 export default function PanVerification() {
   const navigate = useNavigate();
