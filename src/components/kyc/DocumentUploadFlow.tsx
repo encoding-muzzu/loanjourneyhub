@@ -14,7 +14,7 @@ import ProgressIndicator from "@/components/kyc/ProgressIndicator";
 const DocumentUploadFlow = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { setCurrentStep } = useProgress();
+  const { setCurrentStep, updateDocumentProgress } = useProgress();
   const [selectedOption, setSelectedOption] = useState<number | null>(3); // Default to option 3 (Upload documents)
   const [documentStage, setDocumentStage] = useState<DocumentStage>('selection');
   
@@ -54,10 +54,30 @@ const DocumentUploadFlow = () => {
         [documentType]: file
       }));
       
+      // Update progress in context
+      updateDocumentProgress(documentType, true);
+      
+      // Get document label mapping
+      let documentTitle = "";
+      switch (documentType) {
+        case 'idFront':
+          documentTitle = documentLabels['id-front'].title;
+          break;
+        case 'idBack':
+          documentTitle = documentLabels['id-back'].title;
+          break;
+        case 'addressFront':
+          documentTitle = documentLabels['address-front'].title;
+          break;
+        case 'addressBack':
+          documentTitle = documentLabels['address-back'].title;
+          break;
+      }
+      
       // Show success toast
       toast({
         title: "Document Uploaded",
-        description: `Your ${documentLabels[documentType as keyof typeof documentLabels].title} has been successfully uploaded.`,
+        description: `Your ${documentTitle} has been successfully uploaded.`,
         variant: "default",
       });
       
@@ -81,11 +101,32 @@ const DocumentUploadFlow = () => {
 
   const handleRetake = () => {
     // Allow user to retake the current document photo
-    const currentDocType = documentStage.replace('-', '') as keyof typeof documents;
+    let currentDocType: keyof typeof documents;
+    
+    switch (documentStage) {
+      case 'id-front':
+        currentDocType = 'idFront';
+        break;
+      case 'id-back':
+        currentDocType = 'idBack';
+        break;
+      case 'address-front':
+        currentDocType = 'addressFront';
+        break;
+      case 'address-back':
+        currentDocType = 'addressBack';
+        break;
+      default:
+        currentDocType = 'idFront';
+    }
+    
     setDocuments(prev => ({
       ...prev,
       [currentDocType]: null
     }));
+    
+    // Also update progress in context
+    updateDocumentProgress(currentDocType, false);
     
     toast({
       title: "Retake Photo",
@@ -111,7 +152,7 @@ const DocumentUploadFlow = () => {
   };
 
   const handleContinueToLenderProcess = () => {
-    setCurrentStep('kyc-process');
+    setCurrentStep('lender-process');
     navigate('/lender-process');
   };
 
@@ -123,7 +164,24 @@ const DocumentUploadFlow = () => {
       case 'address-back': {
         const currentDocType = documentStage as keyof typeof documentLabels;
         const documentInfo = documentLabels[currentDocType];
-        const uploadKey = currentDocType.replace('-', '') as keyof typeof documents;
+        
+        let uploadKey: keyof typeof documents;
+        switch (currentDocType) {
+          case 'id-front':
+            uploadKey = 'idFront';
+            break;
+          case 'id-back':
+            uploadKey = 'idBack';
+            break;
+          case 'address-front':
+            uploadKey = 'addressFront';
+            break;
+          case 'address-back':
+            uploadKey = 'addressBack';
+            break;
+          default:
+            uploadKey = 'idFront';
+        }
 
         return (
           <>
