@@ -15,8 +15,8 @@ type AgreementStep = "documents" | "esign" | "nach" | "complete";
 export default function LoanAgreement() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { setCurrentStep } = useProgress();
-  const [currentStep, setCurrentStep] = useState<AgreementStep>("documents");
+  const { setCurrentStep: setAppStep } = useProgress();
+  const [agreementStep, setAgreementStep] = useState<AgreementStep>("documents");
   const [isLoading, setIsLoading] = useState(false);
   const [hasAccepted, setHasAccepted] = useState(false);
   const [otp, setOtp] = useState("");
@@ -24,19 +24,19 @@ export default function LoanAgreement() {
   const [ifscCode, setIfscCode] = useState("");
   
   const handleNextStep = () => {
-    switch (currentStep) {
+    switch (agreementStep) {
       case "documents":
-        setCurrentStep("esign");
+        setAgreementStep("esign");
         break;
       case "esign":
-        setCurrentStep("nach");
+        setAgreementStep("nach");
         break;
       case "nach":
         handleSubmitForDisbursement();
         break;
       case "complete":
         // Navigate to home or completion page
-        setCurrentStep("welcome");
+        setAppStep("welcome");
         navigate("/");
         break;
     }
@@ -48,7 +48,7 @@ export default function LoanAgreement() {
     // Simulate submission process
     setTimeout(() => {
       setIsLoading(false);
-      setCurrentStep("complete");
+      setAgreementStep("complete");
       
       toast({
         title: "Disbursement Request Submitted",
@@ -70,7 +70,7 @@ export default function LoanAgreement() {
   };
   
   const renderStepContent = () => {
-    switch (currentStep) {
+    switch (agreementStep) {
       case "documents":
         return (
           <Card className="shadow-xl border-none rounded-xl">
