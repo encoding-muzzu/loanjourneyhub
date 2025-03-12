@@ -54,8 +54,15 @@ export default function LenderProcess() {
   
   // Handle completion (going back to home)
   const handleComplete = () => {
-    setCurrentStep('welcome');
-    navigate('/');
+    if (currentScreen === "approved") {
+      // If approved, navigate to loan agreement page
+      setCurrentStep('loan-agreement');
+      navigate('/loan-agreement');
+    } else {
+      // If rejected, go back to home
+      setCurrentStep('welcome');
+      navigate('/');
+    }
   };
   
   // Render screen based on current state

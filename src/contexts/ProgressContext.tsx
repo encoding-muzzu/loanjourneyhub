@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState } from 'react';
 
-type Step = 'welcome' | 'pre-qualification' | 'pan-verification' | 'offer-matching' | 'offers' | 'kyc-process' | 'lender-process';
+type Step = 'welcome' | 'pre-qualification' | 'pan-verification' | 'offer-matching' | 'offers' | 'kyc-process' | 'lender-process' | 'loan-agreement';
 
 interface DocumentUploadProgress {
   idFront: boolean;
@@ -36,7 +36,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     'offer-matching',
     'offers',
     'kyc-process',
-    'lender-process'
+    'lender-process',
+    'loan-agreement'
   ];
 
   const updateDocumentProgress = (key: keyof DocumentUploadProgress, value: boolean) => {
