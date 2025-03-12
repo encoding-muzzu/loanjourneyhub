@@ -55,7 +55,7 @@ export default function LenderProcess() {
   // Handle completion (going back to home)
   const handleComplete = () => {
     if (currentScreen === "approved") {
-      // If approved, navigate to loan agreement page
+      // Navigate to loan agreement page
       setCurrentStep('loan-agreement');
       navigate('/loan-agreement');
     } else {
@@ -206,7 +206,7 @@ export default function LenderProcess() {
                 onClick={handleComplete}
                 className="w-full bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white py-6 rounded-full flex items-center justify-center gap-2 shadow-xl"
               >
-                Back to Home
+                Proceed to Loan Agreement
                 <ArrowRight className="ml-1" size={18} />
               </Button>
             </CardFooter>
