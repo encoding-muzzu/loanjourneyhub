@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Progress } from "@/components/ui/progress";
-import { Card } from "@/components/ui/card";
+import { Card } from "@/components/ui/card"; // Add missing Card import
+import { Progress as ProgressBar } from "@/components/ui/progress"; // Use named import for Progress
 
 export default function OfferMatching() {
   const navigate = useNavigate();

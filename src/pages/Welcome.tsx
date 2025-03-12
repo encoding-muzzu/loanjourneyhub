@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useProgress } from "@/contexts/ProgressContext";
-import { ArrowRight, Building, CreditCard, Shield } from "lucide-react";
+import { ArrowRight, Building } from "lucide-react"; // Add missing import for icons
 
 export default function Welcome() {
   const navigate = useNavigate();

@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useProgress } from "@/contexts/ProgressContext";
-import { Card } from "@/components/ui/card";
-import { ShieldCheck, ArrowRight } from "lucide-react";
+import { Card } from "@/components/ui/card"; // Add missing Card import
+import { ShieldCheck, ArrowRight } from "lucide-react"; // Add missing icon imports
 
 export default function PreQualification() {
   const navigate = useNavigate();

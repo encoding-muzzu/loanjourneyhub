@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useProgress } from "@/contexts/ProgressContext";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"; // Add missing Card components
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react"; // Add missing icons
 
 export default function PanVerification() {
   const navigate = useNavigate();
