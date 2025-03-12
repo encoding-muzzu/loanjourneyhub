@@ -14,6 +14,7 @@ import Offers from "./pages/Offers";
 import KycProcess from "./pages/KycProcess";
 import LenderProcess from "./pages/LenderProcess";
 import LoanAgreement from "./pages/LoanAgreement";
+import LoanDisbursement from "./pages/LoanDisbursement"; // Add this import
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/kyc-process" element={<KycProcess />} />
             <Route path="/lender-process" element={<LenderProcess />} />
             <Route path="/loan-agreement" element={<LoanAgreement />} />
+            <Route path="/loan-disbursement" element={<LoanDisbursement />} /> {/* Add this route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

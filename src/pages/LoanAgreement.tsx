@@ -1,8 +1,7 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FileText, Signature, CreditCard, Send, Check, ArrowRight } from "lucide-react";
+import { FileText, Signature, CreditCard, Send, Check, ArrowRight, MessageSquare } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,9 +34,7 @@ export default function LoanAgreement() {
         handleSubmitForDisbursement();
         break;
       case "complete":
-        // Navigate to home or completion page
-        setAppStep("welcome");
-        navigate("/");
+        navigate("/loan-disbursement");
         break;
     }
   };
@@ -58,13 +55,10 @@ export default function LoanAgreement() {
     }, 2000);
   };
   
-  // Helper for OTP validation
   const validateOtp = (otp: string) => {
-    // In a real app, you would verify with a server
     return otp.length === 6 && /^\d+$/.test(otp);
   };
   
-  // Helper for bank details validation
   const validateBankDetails = () => {
     return bankAccount.length >= 9 && ifscCode.length === 11;
   };
@@ -362,7 +356,6 @@ export default function LoanAgreement() {
   
   return (
     <div className="min-h-screen flex flex-col items-center justify-between bg-gradient-to-b from-gray-50 to-gray-100 p-4">
-      {/* Header with Icon */}
       <div className="w-full bg-white shadow-md py-4 px-6 flex items-center">
         <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] flex items-center justify-center mr-3">
           <FileText className="h-5 w-5 text-white" />
@@ -381,7 +374,7 @@ export default function LoanAgreement() {
         </motion.div>
       </div>
       
-      <div className="h-16"></div> {/* Spacer at the bottom */}
+      <div className="h-16"></div>
     </div>
   );
 }
