@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, Calendar, CreditCard, BarChart3, FileText, Phone, Mail, HelpCircle, ArrowRight } from "lucide-react";
+import { Check, Calendar, CreditCard, BarChart3, FileText, Phone, Mail, HelpCircle, ArrowRight, MessageSquare } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
