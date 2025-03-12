@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +13,7 @@ import DocumentSelectionCard from "@/components/kyc/DocumentSelectionCard";
 import DocumentCompletionCard from "@/components/kyc/DocumentCompletionCard";
 import ProgressIndicator from "@/components/kyc/ProgressIndicator";
 import KycHeader from "@/components/kyc/KycHeader";
-import { documentLabels } from "@/constants/kycDocuments";
+import { documentLabels, getDocumentIcon } from "@/constants/kycDocuments";
 
 const KycProcess = () => {
   const navigate = useNavigate();
@@ -131,7 +130,7 @@ const KycProcess = () => {
             <DocumentUploadCard 
               title={documentInfo.title}
               description={documentInfo.description}
-              icon={documentInfo.icon}
+              icon={getDocumentIcon(documentInfo.iconType)}
               onUpload={(e) => handleFileUpload(e, uploadKey)}
               onRetake={handleRetake}
               onBack={handleBack}

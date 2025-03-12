@@ -8,30 +8,7 @@ import {
   CardDescription 
 } from "@/components/ui/card";
 import { Check, Info } from "lucide-react";
-
-// Document type labels shared with the main component
-const documentLabels = {
-  'id-front': {
-    title: 'ID Proof (Front)',
-    description: 'Government-issued ID card front side',
-    icon: <div className="h-6 w-6 text-white" />
-  },
-  'id-back': {
-    title: 'ID Proof (Back)',
-    description: 'Government-issued ID card back side',
-    icon: <div className="h-6 w-6 text-white" />
-  },
-  'address-front': {
-    title: 'Address Proof (Front)',
-    description: 'Utility bill or bank statement',
-    icon: <div className="h-6 w-6 text-white" />
-  },
-  'address-back': {
-    title: 'Address Proof (Back)',
-    description: 'Back side if applicable',
-    icon: <div className="h-6 w-6 text-white" />
-  }
-};
+import { documentLabels, getDocumentIcon } from "@/constants/kycDocuments";
 
 const DocumentCompletionCard = () => {
   return (
@@ -52,7 +29,7 @@ const DocumentCompletionCard = () => {
               <Card key={key} className="p-4 border border-gray-200 bg-gray-50">
                 <div className="flex items-center gap-3">
                   <div className="bg-green-100 p-2 rounded-full">
-                    {value.icon}
+                    {getDocumentIcon(value.iconType)}
                   </div>
                   <div>
                     <h4 className="font-medium text-sm">{value.title}</h4>
