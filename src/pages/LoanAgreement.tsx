@@ -1,15 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FileText, Signature, CreditCard, Send, Check, ArrowRight, MessageSquare } from "lucide-react";
+import { FileText, Signature, CreditCard, Send, Check, ArrowRight, MessageSquare, AlertTriangle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { useProgress } from "@/contexts/ProgressContext";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 type AgreementStep = "documents" | "esign" | "nach" | "complete";
+
+// Validation error types
+type ValidationErrors = {
+  otp?: string;
+  bankAccount?: string;
+  ifscCode?: string;
+  upiId?: string;
+};
 
 export default function LoanAgreement() {
   const navigate = useNavigate();
@@ -21,6 +30,9 @@ export default function LoanAgreement() {
   const [otp, setOtp] = useState("");
   const [bankAccount, setBankAccount] = useState("");
   const [ifscCode, setIfscCode] = useState("");
+  const [upiId, setUpiId] = useState("");
+  const [activeTab, setActiveTab] = useState("account");
+  const [errors, setErrors] = useState<ValidationErrors>({});
   
   const handleNextStep = () => {
     switch (agreementStep) {
@@ -28,10 +40,14 @@ export default function LoanAgreement() {
         setAgreementStep("esign");
         break;
       case "esign":
-        setAgreementStep("nach");
+        if (validateOtp()) {
+          setAgreementStep("nach");
+        }
         break;
       case "nach":
-        handleSubmitForDisbursement();
+        if (validateNachDetails()) {
+          handleSubmitForDisbursement();
+        }
         break;
       case "complete":
         navigate("/loan-disbursement");
@@ -55,12 +71,55 @@ export default function LoanAgreement() {
     }, 2000);
   };
   
-  const validateOtp = (otp: string) => {
-    return otp.length === 6 && /^\d+$/.test(otp);
+  const validateOtp = () => {
+    let newErrors: ValidationErrors = {};
+    
+    if (!otp) {
+      newErrors.otp = "OTP is required";
+    } else if (otp.length !== 6) {
+      newErrors.otp = "OTP must be 6 digits";
+    } else if (!/^\d+$/.test(otp)) {
+      newErrors.otp = "OTP must contain only numbers";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
   
-  const validateBankDetails = () => {
-    return bankAccount.length >= 9 && ifscCode.length === 11;
+  const validateNachDetails = () => {
+    let newErrors: ValidationErrors = {};
+    
+    if (activeTab === "account") {
+      if (!bankAccount) {
+        newErrors.bankAccount = "Bank account number is required";
+      } else if (bankAccount.length < 9) {
+        newErrors.bankAccount = "Account number must be at least 9 digits";
+      } else if (!/^\d+$/.test(bankAccount)) {
+        newErrors.bankAccount = "Account number must contain only numbers";
+      }
+      
+      if (!ifscCode) {
+        newErrors.ifscCode = "IFSC code is required";
+      } else if (ifscCode.length !== 11) {
+        newErrors.ifscCode = "IFSC code must be 11 characters";
+      } else if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifscCode)) {
+        newErrors.ifscCode = "IFSC code format is invalid";
+      }
+    } else {
+      if (!upiId) {
+        newErrors.upiId = "UPI ID is required";
+      } else if (!upiId.includes('@')) {
+        newErrors.upiId = "UPI ID must be in format username@bankname";
+      }
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+  // Helper function for form field validation
+  const isFieldValid = (field: keyof ValidationErrors) => {
+    return !errors[field];
   };
   
   const renderStepContent = () => {
@@ -160,8 +219,14 @@ export default function LoanAgreement() {
                 </div>
                 
                 <div className="space-y-2">
-                  <label htmlFor="otp" className="text-sm font-medium text-gray-700">
-                    Enter OTP
+                  <label htmlFor="otp" className="text-sm font-medium text-gray-700 flex items-center justify-between">
+                    <span>Enter OTP</span>
+                    {errors.otp && (
+                      <span className="text-xs text-red-500 flex items-center">
+                        <AlertTriangle className="h-3 w-3 mr-1" />
+                        {errors.otp}
+                      </span>
+                    )}
                   </label>
                   <Input
                     id="otp"
@@ -169,8 +234,13 @@ export default function LoanAgreement() {
                     maxLength={6}
                     placeholder="Enter 6-digit OTP"
                     value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    className="text-center letter-spacing-1 text-lg"
+                    onChange={(e) => {
+                      setOtp(e.target.value);
+                      if (errors.otp) {
+                        setErrors({ ...errors, otp: undefined });
+                      }
+                    }}
+                    className={`text-center text-lg ${errors.otp ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                   />
                 </div>
                 
@@ -194,8 +264,7 @@ export default function LoanAgreement() {
             <CardFooter>
               <Button
                 onClick={handleNextStep}
-                disabled={!validateOtp(otp)}
-                className="w-full bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white py-6 rounded-full flex items-center justify-center gap-2 shadow-xl disabled:opacity-50"
+                className="w-full bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white py-6 rounded-full flex items-center justify-center gap-2 shadow-xl"
               >
                 Proceed to NACH Setup
                 <ArrowRight className="ml-1" size={18} />
@@ -225,47 +294,107 @@ export default function LoanAgreement() {
                   </p>
                 </div>
                 
-                <Tabs defaultValue="account" className="w-full">
+                <Tabs defaultValue="account" className="w-full" onValueChange={setActiveTab}>
                   <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="account">Bank Account</TabsTrigger>
                     <TabsTrigger value="upi">UPI</TabsTrigger>
                   </TabsList>
                   <TabsContent value="account" className="space-y-4 pt-4">
                     <div className="space-y-2">
-                      <label htmlFor="account" className="text-sm font-medium text-gray-700">
-                        Bank Account Number
+                      <label htmlFor="account" className="text-sm font-medium text-gray-700 flex items-center justify-between">
+                        <span>Bank Account Number</span>
+                        {errors.bankAccount && (
+                          <span className="text-xs text-red-500 flex items-center">
+                            <AlertTriangle className="h-3 w-3 mr-1" />
+                            {errors.bankAccount}
+                          </span>
+                        )}
                       </label>
-                      <Input
-                        id="account"
-                        type="text"
-                        placeholder="Enter account number"
-                        value={bankAccount}
-                        onChange={(e) => setBankAccount(e.target.value)}
-                      />
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div>
+                              <Input
+                                id="account"
+                                type="text"
+                                placeholder="Enter account number"
+                                value={bankAccount}
+                                onChange={(e) => {
+                                  setBankAccount(e.target.value);
+                                  if (errors.bankAccount) {
+                                    setErrors({ ...errors, bankAccount: undefined });
+                                  }
+                                }}
+                                className={errors.bankAccount ? 'border-red-500 focus-visible:ring-red-500' : ''}
+                              />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="text-xs">Your account number is typically 9-18 digits</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                     
                     <div className="space-y-2">
-                      <label htmlFor="ifsc" className="text-sm font-medium text-gray-700">
-                        IFSC Code
+                      <label htmlFor="ifsc" className="text-sm font-medium text-gray-700 flex items-center justify-between">
+                        <span>IFSC Code</span>
+                        {errors.ifscCode && (
+                          <span className="text-xs text-red-500 flex items-center">
+                            <AlertTriangle className="h-3 w-3 mr-1" />
+                            {errors.ifscCode}
+                          </span>
+                        )}
                       </label>
-                      <Input
-                        id="ifsc"
-                        type="text"
-                        placeholder="Enter IFSC code"
-                        value={ifscCode}
-                        onChange={(e) => setIfscCode(e.target.value.toUpperCase())}
-                      />
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div>
+                              <Input
+                                id="ifsc"
+                                type="text"
+                                placeholder="Enter IFSC code"
+                                value={ifscCode}
+                                onChange={(e) => {
+                                  setIfscCode(e.target.value.toUpperCase());
+                                  if (errors.ifscCode) {
+                                    setErrors({ ...errors, ifscCode: undefined });
+                                  }
+                                }}
+                                className={errors.ifscCode ? 'border-red-500 focus-visible:ring-red-500' : ''}
+                              />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="text-xs">IFSC format: 4 letters + 0 + 6 alphanumeric</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   </TabsContent>
                   <TabsContent value="upi" className="space-y-4 pt-4">
                     <div className="space-y-2">
-                      <label htmlFor="upi" className="text-sm font-medium text-gray-700">
-                        UPI ID
+                      <label htmlFor="upi" className="text-sm font-medium text-gray-700 flex items-center justify-between">
+                        <span>UPI ID</span>
+                        {errors.upiId && (
+                          <span className="text-xs text-red-500 flex items-center">
+                            <AlertTriangle className="h-3 w-3 mr-1" />
+                            {errors.upiId}
+                          </span>
+                        )}
                       </label>
                       <Input
                         id="upi"
                         type="text"
                         placeholder="username@bankname"
+                        value={upiId}
+                        onChange={(e) => {
+                          setUpiId(e.target.value);
+                          if (errors.upiId) {
+                            setErrors({ ...errors, upiId: undefined });
+                          }
+                        }}
+                        className={errors.upiId ? 'border-red-500 focus-visible:ring-red-500' : ''}
                       />
                     </div>
                   </TabsContent>
@@ -284,8 +413,7 @@ export default function LoanAgreement() {
             <CardFooter>
               <Button
                 onClick={handleNextStep}
-                disabled={!validateBankDetails()}
-                className="w-full bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white py-6 rounded-full flex items-center justify-center gap-2 shadow-xl disabled:opacity-50"
+                className="w-full bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white py-6 rounded-full flex items-center justify-center gap-2 shadow-xl"
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
