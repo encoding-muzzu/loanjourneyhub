@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -114,6 +115,11 @@ const KycProcess = () => {
     }
   };
 
+  const handleContinueToLenderProcess = () => {
+    setCurrentStep('kyc-process');
+    navigate('/lender-process');
+  };
+
   const renderDocumentUploadStage = () => {
     switch (documentStage) {
       case 'id-front':
@@ -189,9 +195,9 @@ const KycProcess = () => {
           ) : documentStage === 'completed' ? (
             <Button 
               className="bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] w-full py-6 text-lg rounded-full flex items-center justify-center gap-2 shadow-xl hover:opacity-95 transition-opacity"
-              onClick={() => navigate("/")}
+              onClick={handleContinueToLenderProcess}
             >
-              Back to Homepage
+              Continue to Application Process
               <ArrowRight className="ml-1" />
             </Button>
           ) : null}
